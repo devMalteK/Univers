@@ -6,7 +6,6 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
 
@@ -15,7 +14,7 @@ import de.kochnetonline.utils.StudentStringUtils;
 
 
 @SpringView(name = StudentLayoutFactory.NAME, ui = UniverseMainUI.class)
-public class StudentLayoutFactory extends VerticalLayout implements View {
+public class StudentLayoutFactory extends VerticalLayout implements View, StudentSavedListener {
 
 	/**
 	 * 
@@ -26,6 +25,9 @@ public class StudentLayoutFactory extends VerticalLayout implements View {
 
 	@Autowired
 	private AddStudentMainLayoutFactory mainLayoutFactory;
+	
+	@Autowired
+	private ShowAllStudentsLayoutFactory showAllStudentsLayoutFactory; 
 	
 	private TabSheet tabSheet;
 	
@@ -40,8 +42,8 @@ public class StudentLayoutFactory extends VerticalLayout implements View {
 		tabSheet = new TabSheet();
 		tabSheet.setWidth("100%");
 		
-		Component addStudentMainTab = mainLayoutFactory.createComponent();
-		Component showStudentsTab = new Label("Show students tab...");
+		Component addStudentMainTab = mainLayoutFactory.createComponent(this);
+		Component showStudentsTab = showAllStudentsLayoutFactory.createComponent();
 		
 		tabSheet.addTab(addStudentMainTab, StudentStringUtils.MAIN_MENU.getString());
 		tabSheet.addTab(showStudentsTab, StudentStringUtils.SHOW_ALL_STUDENTS.getString());
@@ -49,6 +51,12 @@ public class StudentLayoutFactory extends VerticalLayout implements View {
 		addComponent(tabSheet);
 		
 		
+		
+	}
+
+	@Override
+	public void saved() {
+		showAllStudentsLayoutFactory.refresh();
 		
 	}
 	
