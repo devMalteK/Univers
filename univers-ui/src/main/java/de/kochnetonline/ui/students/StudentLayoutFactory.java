@@ -9,19 +9,18 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
 
-import de.kochnetonline.ui.commons.UniverseMainUI;
+import de.kochnetonline.ui.commons.UniversMainUI;
 import de.kochnetonline.utils.StudentStringUtils;
 
 
-@SpringView(name = StudentLayoutFactory.NAME, ui = UniverseMainUI.class)
+@SpringView(name = StudentLayoutFactory.NAME, ui = UniversMainUI.class)
 public class StudentLayoutFactory extends VerticalLayout implements View, StudentSavedListener {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 958667917465248700L;
-	public static final String NAME = "addstudend";
-	public static final String dd = "addstudend";
+	public static final String NAME = "addstudent";
 
 	@Autowired
 	private AddStudentMainLayoutFactory mainLayoutFactory;

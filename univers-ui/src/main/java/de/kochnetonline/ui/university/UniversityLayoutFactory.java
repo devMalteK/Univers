@@ -6,9 +6,9 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
-import de.kochnetonline.ui.commons.UniverseMainUI;
+import de.kochnetonline.ui.commons.UniversMainUI;
 
-@SpringView(name = UniversityLayoutFactory.NAME, ui = UniverseMainUI.class)
+@SpringView(name = UniversityLayoutFactory.NAME, ui = UniversMainUI.class)
 public class UniversityLayoutFactory extends VerticalLayout implements View {
 
 	/**

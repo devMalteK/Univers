@@ -18,10 +18,10 @@ import com.vaadin.ui.VerticalLayout;
 import de.kochnetonline.navigator.UniversNavigator;
 import de.kochnetonline.ui.students.StudentLayoutFactory;
 
-@SpringUI(path = UniverseMainUI.NAME)
+@SpringUI(path = UniversMainUI.NAME)
 @Title("U n i v e r s")
 @Theme("valo")
-public class UniverseMainUI extends UI {
+public class UniversMainUI extends UI {
 
 	private static final long serialVersionUID = 1L;
 	public static final String NAME = "/ui";

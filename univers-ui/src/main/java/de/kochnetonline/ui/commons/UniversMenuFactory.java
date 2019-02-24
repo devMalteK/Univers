@@ -55,7 +55,8 @@ public class UniversMenuFactory implements UIComponentBuilder {
 			
 			if (selectedItemPath == null) return;
 			
-			String path=selectedItemPath.toLowerCase().replace("//s+", "");
+			String path=selectedItemPath.toLowerCase().replace(" ", "");
+			System.out.println(path);
 			
 			UniversNavigator.navigate(path);
 
