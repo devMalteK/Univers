@@ -6,7 +6,6 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
 
@@ -30,6 +29,9 @@ public class UniversityLayoutFactory extends VerticalLayout implements View, Uni
 	@Autowired
 	private ShowAllUniversitiesLayoutFactory showAllUniversitiesLayoutFactory; 
 	
+	@Autowired
+	private StastisticsUniversityLayoutFactory stastisticsUniversityLayoutFactory;
+	
 	private void addLayout() {
 		setMargin(true);
 		tabSheet=new TabSheet();
@@ -37,7 +39,7 @@ public class UniversityLayoutFactory extends VerticalLayout implements View, Uni
 		
 		Component addUniversityTab=addUniversityLayoutFactory.createComponent(this);
 		Component showAllUniversitiesTab = showAllUniversitiesLayoutFactory.createComponent();
-		Component showStatisticsTab = new Label ("Stats");
+		Component showStatisticsTab = stastisticsUniversityLayoutFactory.createComponent();
 		
 		tabSheet.addTab(addUniversityTab, "ADD UNIVERSITY");
 		tabSheet.addTab(showAllUniversitiesTab, "SHOW ALL UNIVERSITIES");
@@ -51,6 +53,7 @@ public class UniversityLayoutFactory extends VerticalLayout implements View, Uni
 	@Override
 	public void universitySaved() {
 		showAllUniversitiesLayoutFactory.refreshTable();
+		stastisticsUniversityLayoutFactory.refresh();
 		
 	}
 

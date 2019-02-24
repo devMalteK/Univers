@@ -2,9 +2,13 @@ package de.kochnetonline.model.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -33,9 +37,23 @@ public class Student{
 	private Integer age;
 	@Column(name = "gender")
 	private String gender;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="university_id")
+	@NotNull(message="specigy University")
+	private University university;
+	
 
 	public Student() {
 
+	}
+
+	public University getUniversity() {
+		return university;
+	}
+
+	public void setUniversity(University university) {
+		this.university = university;
 	}
 
 	public Integer getId() {

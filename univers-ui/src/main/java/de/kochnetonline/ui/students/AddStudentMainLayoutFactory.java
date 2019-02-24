@@ -1,5 +1,7 @@
 package de.kochnetonline.ui.students;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
@@ -17,7 +19,9 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 import de.kochnetonline.model.entity.Student;
+import de.kochnetonline.model.entity.University;
 import de.kochnetonline.service.addstudent.AddStudentService;
+import de.kochnetonline.service.showalluniversities.ShowAllUniversitiesService;
 import de.kochnetonline.utils.Gender;
 import de.kochnetonline.utils.NotificationMessages;
 import de.kochnetonline.utils.StudentStringUtils;
@@ -31,6 +35,7 @@ public class AddStudentMainLayoutFactory {
 		private TextField lastName;
 		private TextField age;
 		private ComboBox gender;
+		private ComboBox university;
 		private Button saveButton;
 		private Button clearButton;
 
@@ -55,6 +60,9 @@ public class AddStudentMainLayoutFactory {
 
 			saveButton = new Button(StudentStringUtils.SAVE_BUTTON.getString());
 			clearButton = new Button(StudentStringUtils.CLEAR_BUTTON.getString());
+			
+			university = new ComboBox(StudentStringUtils.UNIVERSITY.getString());
+			university.setWidth("100%");
 
 			saveButton.setStyleName(ValoTheme.BUTTON_FRIENDLY);
 			clearButton.setStyleName(ValoTheme.BUTTON_PRIMARY);
@@ -75,7 +83,7 @@ public class AddStudentMainLayoutFactory {
 		public Component layout() {
 			setMargin(true);
 
-			GridLayout gridLayout = new GridLayout(2, 3);
+			GridLayout gridLayout = new GridLayout(2, 4);
 			gridLayout.setSizeUndefined();
 			gridLayout.setSpacing(true);
 
@@ -84,8 +92,10 @@ public class AddStudentMainLayoutFactory {
 
 			gridLayout.addComponent(age, 0, 1);
 			gridLayout.addComponent(gender, 1, 1);
+			
+			gridLayout.addComponent(university, 0, 2, 1, 2);
 
-			gridLayout.addComponent(new HorizontalLayout(saveButton, clearButton), 0, 2);
+			gridLayout.addComponent(new HorizontalLayout(saveButton, clearButton), 0, 3);
 
 			return gridLayout;
 
@@ -100,6 +110,12 @@ public class AddStudentMainLayoutFactory {
 		}
 
 		private void save() {
+			
+			if (!isSavedOperationValid()) {
+				Notification.show("Error", "Must have at least one University", Type.ERROR_MESSAGE);
+				return;
+			}
+			
 			try {
 				fieldGroup.commit();
 			} catch (CommitException e) {
@@ -119,6 +135,7 @@ public class AddStudentMainLayoutFactory {
 			lastName.setValue(null);
 			gender.setValue(null);
 			age.setValue(null);
+			university.setValue(null);
 			
 		}
 
@@ -127,13 +144,26 @@ public class AddStudentMainLayoutFactory {
 			fieldGroup.setItemDataSource(student);
 			return this;
 		}
+		
+		private boolean isSavedOperationValid() {
+			return showAllUniversitiesService.getAllUniversities().size()!=0;
+		}
+
+		public AddStudentMainLayout load() {
+			List<University> universities = showAllUniversitiesService.getAllUniversities();
+			university.addItems(universities);
+			return this;
+		}
 	}
 
+	@Autowired
+	private ShowAllUniversitiesService showAllUniversitiesService; 
+	
 	@Autowired
 	private AddStudentService  addStudentService;
 	
 	public Component createComponent(StudentSavedListener studentSavedListener) {
-		return new AddStudentMainLayout(studentSavedListener).init().bind().layout();
+		return new AddStudentMainLayout(studentSavedListener).init().load().bind().layout();
 	}
 
 }

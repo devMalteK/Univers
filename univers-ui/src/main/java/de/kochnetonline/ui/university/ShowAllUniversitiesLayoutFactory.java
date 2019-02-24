@@ -32,7 +32,7 @@ public class ShowAllUniversitiesLayoutFactory implements UIComponentBuilder {
 
 			universityTable = new Grid(container);
 			universityTable.setColumnOrder("universityName", "universityCountry", "universityCity");
-			// universityTable.removeColumn("id");
+			universityTable.removeColumn("id");
 			universityTable.setImmediate(true);
 			;
 
